@@ -35,8 +35,8 @@ export function HeroLockup() {
             <Image
               src={BRAND_LOGO_ON_DARK}
               alt="PartyTenders. Your party, we tend."
-              width={810}
-              height={240}
+              width={762}
+              height={224}
               priority
               unoptimized
               className="hero-logo"

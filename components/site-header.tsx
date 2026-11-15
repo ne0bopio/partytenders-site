@@ -149,8 +149,8 @@ export function SiteHeader() {
           <Image
             src={!open && world === "cream" ? BRAND_MARK : BRAND_MARK_ON_DARK}
             alt=""
-            width={40}
-            height={54}
+            width={200}
+            height={268}
             unoptimized
           />
         </a>

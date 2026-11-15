@@ -61,9 +61,8 @@ Redeploy after saving them. A missing Supabase URL or service role key does not 
 
 ```
 app/
-  layout.tsx          fonts, global CSS, share metadata
+  layout.tsx          fonts, global CSS, share metadata, favicon links
   globals.css         the existing stylesheet
-  icon.svg            favicon
   (site)/             public pages. The route group is not part of the URL.
     page.tsx          the one-page site
     layout.tsx        header and footer
@@ -86,16 +85,18 @@ supabase/migrations/  quote_requests table and RLS
 
 ## Logo
 
-The chosen mark is the Deco Monogram, a PT monogram in a chamfered art-deco badge, brass on night. It will be the hero lockup, the header mark, and the favicon. Those files are still being drawn. Until they arrive, `public/brand/` holds the previous coupe lockup so the page has a logo. That artwork is not the final choice. Swap it by replacing the files and keeping the names.
+The mark is the Deco Monogram, a PT ligature in a chamfered art-deco badge. The hero lockup reads `public/brand/logo-full-light.svg` (cream type for the night background).
+
+To swap the logo, replace the files and keep the names:
 
 | File | Use |
 | --- | --- |
 | `logo-full-light.svg` / `.png` | Cream type. The hero lockup uses the SVG. |
 | `logo-full.svg` / `.png` | Night type, for a light background. |
-| `logo-mark-light.svg` / `.png` | Mark for dark backgrounds. Header on night. |
-| `logo-mark.svg` / `.png` | Mark for light backgrounds. Header on cream. |
+| `logo-mark-light.svg` / `.png` | Cream PT badge. Header on night. |
+| `logo-mark.svg` / `.png` | Night badge. Header on cream. |
 
-The placeholder lockup is 809.72×240. If the Deco files are a different size, update `BRAND_LOGO_ASPECT` in `lib/brand.ts`. The header reads `logo-mark-light.svg` on dark grounds and `logo-mark.svg` on cream. The favicon is `app/icon.svg` until the Deco favicon files arrive. The typed headline stays in the image alt. “Jersey City & South Florida” and the quote button stay as live text.
+The lockup is 761.75×224. If a replacement is a different size, update `BRAND_LOGO_ASPECT` in `lib/brand.ts`. The header reads `logo-mark-light.svg` on dark grounds and `logo-mark.svg` on cream. Favicons are `public/favicon.svg`, `public/favicon.ico` (16, 32, and 48), `public/favicon-32.png`, `public/favicon-16.png`, and `public/apple-touch-icon.png` (180), declared in the root metadata. The typed headline stays in the image alt. “Jersey City & South Florida” and the quote button stay as live text.
 
 ## Fonts
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0.00 0.00 200.00 200.00" width="32" height="32" role="img" aria-labelledby="title desc">
+  <title id="title">PartyTenders favicon</title>
+  <desc id="desc">PartyTenders art-deco PT monogram favicon: a chamfered brass badge on night, with a PT ligature drawn to read clearly at 16 and 32 pixels.</desc>
+  
+    <g id="mark-deco-favicon">
+      <rect width="200" height="200" fill="#150B0E"/>
+      <path d="M 31.60,18.00 L 168.40,18.00 L 182.00,31.60 L 182.00,168.40 L 168.40,182.00 L 31.60,182.00 L 18.00,168.40 L 18.00,31.60 Z" fill="#150B0E"/>
+      <path d="M 28.00,6.00 L 172.00,6.00 L 194.00,28.00 L 194.00,172.00 L 172.00,194.00 L 28.00,194.00 L 6.00,172.00 L 6.00,28.00 Z M 31.60,18.00 L 168.40,18.00 L 182.00,31.60 L 182.00,168.40 L 168.40,182.00 L 31.60,182.00 L 18.00,168.40 L 18.00,31.60 Z" fill="#D4AE69" fill-rule="evenodd"/>
+      <path d="M 33.10,23.00 L 166.90,23.00 L 177.00,33.10 L 177.00,166.90 L 166.90,177.00 L 33.10,177.00 L 23.00,166.90 L 23.00,33.10 Z M 34.45,27.50 L 165.55,27.50 L 172.50,34.45 L 172.50,165.55 L 165.55,172.50 L 34.45,172.50 L 27.50,165.55 L 27.50,34.45 Z" fill="#D4AE69" fill-rule="evenodd"/>
+      <path d="M 37.50,39.50 L 162.50,39.50 L 162.50,59.80 L 135.00,59.80 L 135.00,162.50 L 110.00,162.50 L 110.00,59.80 L 97.97,59.80 C 97.97,76.74 97.97,90.61 97.97,90.61 C 97.97,104.47 78.12,121.42 61.88,121.42 L 61.88,162.50 L 44.38,162.50 L 44.38,59.80 L 37.50,59.80 Z M 63.98,68.32 L 63.98,112.81 C 77.38,112.81 88.34,98.35 88.34,90.56 C 88.34,82.78 77.38,68.32 63.98,68.32 Z" fill="#F2E7D6" fill-rule="evenodd"/>
+    </g>
+    
+</svg>
