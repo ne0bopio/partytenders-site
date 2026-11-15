@@ -1,4 +1,6 @@
-/* PartyTenders production site — palette 2 and type 3. */
+/* PartyTenders — palette 2 and type 3.
+   Federo, Cormorant Garamond, and Mulish are loaded in app/layout.tsx.
+   Type pairs 1 and 2 stay here for reference; their fonts are not loaded. */
 
 /* ---------- palettes ---------- */
 [data-p="1"]{ /* Neón de barra */
@@ -23,13 +25,12 @@
 /* ---------- type pairs (cw = average cap width / em, used to fit words) ---------- */
 [data-t="1"]{ --fd:"Anton",Impact,sans-serif; --fdw:400; --fa:"Cormorant Garamond",Georgia,serif; --faw:500; --fb:"Archivo",system-ui,sans-serif; --cw:.47; --fdtrack:.005em; }
 [data-t="2"]{ --fd:"Big Shoulders Display",Impact,sans-serif; --fdw:800; --fa:"Instrument Serif",Georgia,serif; --faw:400; --fb:"Instrument Sans",system-ui,sans-serif; --cw:.5; --fdtrack:0; }
-[data-t="3"]{ --fd:"Federo",Georgia,serif; --fdw:400; --fa:"Cormorant Garamond",Georgia,serif; --faw:500; --fb:"Mulish",system-ui,sans-serif; --cw:.74; --fdtrack:.02em; }
+[data-t="3"]{ --fd:var(--font-federo),Georgia,serif; --fdw:400; --fa:var(--font-cormorant),Georgia,serif; --faw:500; --fb:var(--font-mulish),system-ui,sans-serif; --cw:.74; --fdtrack:.02em; }
 
 /* ---------- worlds ---------- */
 .w-night{ --bg:var(--night); --fg:var(--cream); --acc:var(--brass); --frame:var(--brass); }
 .w-bar  { --bg:var(--bar);   --fg:var(--barfg); --acc:var(--barfg); --frame:var(--barfg); }
 .w-team { --bg:var(--team);  --fg:var(--teamfg);--acc:var(--teamfg);--frame:var(--teamfg); }
-.w-kit  { --bg:var(--kit);   --fg:var(--kitfg); --acc:var(--kitfg); --frame:var(--kitfg); }
 .w-cream{ --bg:var(--cream); --fg:var(--night); --acc:var(--bar);   --frame:var(--night); }
 
 /* ---------- base ---------- */
@@ -46,7 +47,6 @@ main > section, .foot{ background:var(--bg); color:var(--fg); position:relative 
   color:var(--cream); transition:background-color .35s, color .35s; }
 .hdr[data-w="bar"]{ background:var(--bar); color:var(--barfg) }
 .hdr[data-w="team"]{ background:var(--team); color:var(--teamfg) }
-.hdr[data-w="kit"]{ background:var(--kit); color:var(--kitfg) }
 .hdr[data-w="cream"]{ background:var(--cream); color:var(--night) }
 .hdr[data-w="night"].solid{ background:var(--night) }
 .hdr-menu{ justify-self:start; display:flex; align-items:center; gap:10px; background:none; border:0; color:inherit; font:600 .9rem var(--fb); padding:10px 4px; cursor:pointer; min-height:44px }
@@ -130,36 +130,11 @@ main > section, .foot{ background:var(--bg); color:var(--fg); position:relative 
 .lname{ margin:10px 0 0; display:grid; justify-items:center; line-height:.84; position:relative; z-index:1 }
 .lname i{ font:italic var(--faw) clamp(1.7rem,6.4vw,3.2rem)/1 var(--fa); color:var(--acc); margin-bottom:.02em }
 .lname span{ font:var(--fdw) min(calc(88vw / (var(--n) * var(--cw))), 42vw, 17rem)/.86 var(--fd); letter-spacing:var(--fdtrack); text-transform:uppercase }
-.lname.two span + span{ margin-top:.02em }
 .ltext{ margin:30px auto 0; max-width:44ch; font-size:1.06rem }
 .line-col{ height:min(112vw,600px); margin-top:-3vw; z-index:2 }
 .line-col .c1{ left:0; top:8%; width:min(44%,330px); aspect-ratio:4/5 }
-.line-col .c1.tall{ aspect-ratio:3/4.4 }
 .line-col .c2{ left:50%; translate:-50% var(--py,0px); top:5%; width:min(46%,320px); aspect-ratio:3/4.1; z-index:1 }
 .line-col .c3{ right:0; top:46%; width:min(42%,320px); aspect-ratio:4/3; z-index:2 }
-
-/* kitchen: a menu card instead of photos */
-.menucard{ max-width:440px; margin:34px auto 0; padding:26px 22px 20px;
-  box-shadow:0 0 0 1.5px var(--frame), 0 0 0 8px var(--bg), 0 0 0 9.5px var(--frame) }
-.mc-h{ margin:0 0 12px; font:var(--fdw) 1.15rem/1 var(--fd); letter-spacing:.04em; text-transform:uppercase }
-.menucard ul{ list-style:none; margin:0; padding:0; text-align:left }
-.menucard li{ display:flex; align-items:baseline; gap:8px; padding:7px 0 }
-.menucard li span{ font:italic var(--faw) 1.45rem/1.15 var(--fa) }
-.menucard li i{ flex:1; border-bottom:1.5px dotted currentColor; transform:translateY(-4px); min-width:16px }
-.menucard li em{ font:600 .82rem var(--fb); font-style:normal }
-
-/* rentals: brass inventory on night */
-.rentals .inventory{ list-style:none; margin:30px auto 0; padding:0; max-width:560px }
-.inventory li{ display:flex; justify-content:center; align-items:baseline; flex-wrap:wrap; gap:4px 12px; padding:12px 0; border-top:1px solid color-mix(in srgb,var(--brass) 45%,transparent) }
-.inventory li:last-child{ border-bottom:1px solid color-mix(in srgb,var(--brass) 45%,transparent) }
-.inventory span{ font:var(--fdw) clamp(1.7rem,6.6vw,2.6rem)/1 var(--fd); letter-spacing:var(--fdtrack); text-transform:uppercase }
-.inventory em{ font:italic var(--faw) 1.25rem/1 var(--fa); color:var(--brass) }
-.st-c{ position:relative; margin:-24px 0 0 auto; right:-1%; background:var(--bar); color:var(--barfg); width:clamp(96px,26vw,140px) }
-
-/* morning joe */
-.breakfast{ list-style:none; margin:30px auto 0; padding:0; max-width:520px }
-.breakfast li{ font:italic var(--faw) clamp(1.35rem,5vw,1.8rem)/1.2 var(--fa); padding:9px 0; border-top:1px solid color-mix(in srgb,var(--night) 22%,transparent) }
-.breakfast li:last-child{ border-bottom:1px solid color-mix(in srgb,var(--night) 22%,transparent) }
 
 /* ---------- proof ---------- */
 .proof{ padding:96px 18px 104px; text-align:center }
@@ -174,7 +149,7 @@ main > section, .foot{ background:var(--bg); color:var(--fg); position:relative 
 
 /* ---------- fusion ---------- */
 .fusion{ padding:92px 20px 100px; display:grid; gap:44px; justify-items:center; text-align:center }
-.fusion .arch{ margin:0; width:min(62vw,320px); aspect-ratio:3/4.1; translate:0 var(--py,0px) }
+.fusion .arch{ position:relative; margin:0; width:min(62vw,320px); aspect-ratio:3/4.1; translate:0 var(--py,0px) }
 .fusion .arch img{ width:100%; height:100%; object-fit:cover }
 .fusion-h{ margin:8px 0 0; font:italic var(--faw) clamp(2.4rem,9vw,4rem)/1 var(--fa) }
 
@@ -191,8 +166,15 @@ legend{ padding:0; margin-bottom:10px; font:italic var(--faw) 1.55rem/1.1 var(--
 #qform input{ font:400 1.05rem var(--fb); color:var(--night); background:transparent; border:0; border-bottom:1.5px solid var(--night); padding:10px 0; border-radius:0; min-height:44px; width:100% }
 #qform .row{ display:grid; grid-template-columns:1fr 1fr; gap:18px }
 .send{ justify-self:start; font:600 1.05rem var(--fb); background:var(--night); color:var(--cream); border:0; border-radius:99px; padding:15px 30px; cursor:pointer; min-height:48px }
+.send:disabled{ opacity:.6; cursor:progress }
+.hp{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0 }
 .q-note{ margin:0; font-size:.95rem }
-.q-done{ margin:0; padding:14px 16px; border:1.5px solid var(--night); border-radius:12px }
+.q-done{ margin:0; padding:14px 16px; border:1.5px solid var(--night); border-radius:12px; display:grid; gap:14px }
+.q-done p{ margin:0 }
+.q-message{ white-space:pre-wrap; font:400 1rem/1.45 var(--fb) }
+.q-actions{ display:flex; flex-wrap:wrap; gap:10px }
+.q-actions a,.q-actions button{ font:600 .95rem var(--fb); color:var(--cream); background:var(--night); border:0; border-radius:99px; padding:11px 16px; min-height:44px; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center }
+.q-actions .ghost{ background:transparent; color:var(--night); border:1.5px solid var(--night) }
 
 /* ---------- footer ---------- */
 .foot{ padding:72px 18px 90px; text-align:center }
@@ -222,7 +204,6 @@ legend{ padding:0; margin-bottom:10px; font:italic var(--faw) 1.55rem/1.1 var(--
   .line{ padding:120px 32px 130px }
   .line-col{ height:560px; margin-top:-16px }
   .line-col .c2{ top:7% }
-  .st-c{ margin:-70px 0 0 calc(50% + 190px); right:auto }
   .line-col .c1{ left:4%; width:280px }
   .line-col .c2{ width:300px }
   .line-col .c3{ right:4%; width:320px }
@@ -232,4 +213,10 @@ legend{ padding:0; margin-bottom:10px; font:italic var(--faw) 1.55rem/1.1 var(--
 @media (max-width:420px){ #qform .row{ grid-template-columns:1fr } }
 @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto } }
 
-/* Production build: palette 2 and type 3 are selected in index.html. */
+/* Production build: palette 2 and type 3 are set on <html> in app/layout.tsx. */
+
+/* ---------- admin stub ---------- */
+.admin-stub{ min-height:100vh; display:grid; align-content:center; justify-items:center; text-align:center; padding:96px 24px; background:var(--night); color:var(--cream) }
+.admin-stub h1{ margin:8px 0 0; font:var(--fdw) clamp(2.6rem,8vw,4.8rem)/.9 var(--fd); letter-spacing:var(--fdtrack); text-transform:uppercase }
+.admin-stub p{ margin:12px 0 0; max-width:38ch }
+.admin-stub a{ color:var(--brass) }
