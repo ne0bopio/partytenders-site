@@ -86,18 +86,16 @@ supabase/migrations/  quote_requests table and RLS
 
 ## Logo
 
-The current mark is Line Coupe. The hero lockup reads `public/brand/logo-full-light.svg` (cream type for the night background). `logo-full-light.png` is the same artwork for a place that cannot draw the SVG.
-
-To swap the logo, replace the files and keep the names:
+The chosen mark is the Deco Monogram, a PT monogram in a chamfered art-deco badge, brass on night. It will be the hero lockup, the header mark, and the favicon. Those files are still being drawn. Until they arrive, `public/brand/` holds the previous coupe lockup so the page has a logo. That artwork is not the final choice. Swap it by replacing the files and keeping the names.
 
 | File | Use |
 | --- | --- |
 | `logo-full-light.svg` / `.png` | Cream type. The hero lockup uses the SVG. |
 | `logo-full.svg` / `.png` | Night type, for a light background. |
-| `logo-mark-light.svg` / `.png` | Cream line coupe for dark backgrounds. Header and favicon. |
-| `logo-mark.svg` / `.png` | Night line coupe for light backgrounds. |
+| `logo-mark-light.svg` / `.png` | Mark for dark backgrounds. Header on night. |
+| `logo-mark.svg` / `.png` | Mark for light backgrounds. Header on cream. |
 
-The wordmark and the tagline “Your party, we tend.” are outlined paths. The current lockup is the Line Coupe, 760.03×224. If a replacement is a different size, update `BRAND_LOGO_ASPECT` in `lib/brand.ts`. The header and the favicon use `logo-mark-light.svg` on dark grounds and `logo-mark.svg` on cream. The typed headline stays in the image alt. “Jersey City & South Florida” and the quote button stay as live text.
+The placeholder lockup is 809.72×240. If the Deco files are a different size, update `BRAND_LOGO_ASPECT` in `lib/brand.ts`. The header reads `logo-mark-light.svg` on dark grounds and `logo-mark.svg` on cream. The favicon is `app/icon.svg` until the Deco favicon files arrive. The typed headline stays in the image alt. “Jersey City & South Florida” and the quote button stay as live text.
 
 ## Fonts
 
