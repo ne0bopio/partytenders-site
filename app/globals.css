@@ -1,4 +1,6 @@
-/* PartyTenders production site — palette 2 and type 3. */
+/* PartyTenders — palette 2 and type 3.
+   Federo, Cormorant Garamond, and Mulish are loaded in app/layout.tsx.
+   Type pairs 1 and 2 stay here for reference; their fonts are not loaded. */
 
 /* ---------- palettes ---------- */
 [data-p="1"]{ /* Neón de barra */
@@ -23,7 +25,7 @@
 /* ---------- type pairs (cw = average cap width / em, used to fit words) ---------- */
 [data-t="1"]{ --fd:"Anton",Impact,sans-serif; --fdw:400; --fa:"Cormorant Garamond",Georgia,serif; --faw:500; --fb:"Archivo",system-ui,sans-serif; --cw:.47; --fdtrack:.005em; }
 [data-t="2"]{ --fd:"Big Shoulders Display",Impact,sans-serif; --fdw:800; --fa:"Instrument Serif",Georgia,serif; --faw:400; --fb:"Instrument Sans",system-ui,sans-serif; --cw:.5; --fdtrack:0; }
-[data-t="3"]{ --fd:"Federo",Georgia,serif; --fdw:400; --fa:"Cormorant Garamond",Georgia,serif; --faw:500; --fb:"Mulish",system-ui,sans-serif; --cw:.74; --fdtrack:.02em; }
+[data-t="3"]{ --fd:var(--font-federo),Georgia,serif; --fdw:400; --fa:var(--font-cormorant),Georgia,serif; --faw:500; --fb:var(--font-mulish),system-ui,sans-serif; --cw:.74; --fdtrack:.02em; }
 
 /* ---------- worlds ---------- */
 .w-night{ --bg:var(--night); --fg:var(--cream); --acc:var(--brass); --frame:var(--brass); }
@@ -174,7 +176,7 @@ main > section, .foot{ background:var(--bg); color:var(--fg); position:relative 
 
 /* ---------- fusion ---------- */
 .fusion{ padding:92px 20px 100px; display:grid; gap:44px; justify-items:center; text-align:center }
-.fusion .arch{ margin:0; width:min(62vw,320px); aspect-ratio:3/4.1; translate:0 var(--py,0px) }
+.fusion .arch{ position:relative; margin:0; width:min(62vw,320px); aspect-ratio:3/4.1; translate:0 var(--py,0px) }
 .fusion .arch img{ width:100%; height:100%; object-fit:cover }
 .fusion-h{ margin:8px 0 0; font:italic var(--faw) clamp(2.4rem,9vw,4rem)/1 var(--fa) }
 
@@ -192,7 +194,12 @@ legend{ padding:0; margin-bottom:10px; font:italic var(--faw) 1.55rem/1.1 var(--
 #qform .row{ display:grid; grid-template-columns:1fr 1fr; gap:18px }
 .send{ justify-self:start; font:600 1.05rem var(--fb); background:var(--night); color:var(--cream); border:0; border-radius:99px; padding:15px 30px; cursor:pointer; min-height:48px }
 .q-note{ margin:0; font-size:.95rem }
-.q-done{ margin:0; padding:14px 16px; border:1.5px solid var(--night); border-radius:12px }
+.q-done{ margin:0; padding:14px 16px; border:1.5px solid var(--night); border-radius:12px; display:grid; gap:14px }
+.q-done p{ margin:0 }
+.q-message{ white-space:pre-wrap; font:400 1rem/1.45 var(--fb) }
+.q-actions{ display:flex; flex-wrap:wrap; gap:10px }
+.q-actions a,.q-actions button{ font:600 .95rem var(--fb); color:var(--cream); background:var(--night); border:0; border-radius:99px; padding:11px 16px; min-height:44px; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center }
+.q-actions .ghost{ background:transparent; color:var(--night); border:1.5px solid var(--night) }
 
 /* ---------- footer ---------- */
 .foot{ padding:72px 18px 90px; text-align:center }
@@ -232,4 +239,10 @@ legend{ padding:0; margin-bottom:10px; font:italic var(--faw) 1.55rem/1.1 var(--
 @media (max-width:420px){ #qform .row{ grid-template-columns:1fr } }
 @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto } }
 
-/* Production build: palette 2 and type 3 are selected in index.html. */
+/* Production build: palette 2 and type 3 are set on <html> in app/layout.tsx. */
+
+/* ---------- admin stub ---------- */
+.admin-stub{ min-height:100vh; display:grid; align-content:center; justify-items:center; text-align:center; padding:96px 24px; background:var(--night); color:var(--cream) }
+.admin-stub h1{ margin:8px 0 0; font:var(--fdw) clamp(2.6rem,8vw,4.8rem)/.9 var(--fd); letter-spacing:var(--fdtrack); text-transform:uppercase }
+.admin-stub p{ margin:12px 0 0; max-width:38ch }
+.admin-stub a{ color:var(--brass) }
