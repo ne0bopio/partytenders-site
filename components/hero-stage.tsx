@@ -47,8 +47,21 @@ export function HeroStage() {
   const [failed, setFailed] = useState(false);
   const [ready, setReady] = useState(false);
   const [active, setActive] = useState(true);
+  const [skipped, setSkipped] = useState(false);
   const mode = useSyncExternalStore(subscribeMotion, motionMode, () => "pending" as const);
   const live = mode === "live" && !failed;
+
+  useEffect(() => {
+    if (!live) return;
+    if (prefersReducedMotion()) {
+      heroMotion.skipIntro = true;
+      heroMotion.intro = 1;
+      return;
+    }
+    heroMotion.skipIntro = false;
+    heroMotion.intro = 0;
+    heroMotion.introStarted = performance.now();
+  }, [live]);
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -98,6 +111,7 @@ export function HeroStage() {
           const rect = section.getBoundingClientRect();
           const next = -rect.top / Math.max(rect.height, 1);
           heroMotion.scroll = Math.min(1, Math.max(0, next));
+          stageRef.current?.style.setProperty("--hero-out", heroMotion.scroll.toFixed(3));
         }
         ticking = false;
       });
@@ -123,6 +137,19 @@ export function HeroStage() {
         sizes="(min-width: 860px) 70vw, 100vw"
         className={ready && live ? "hero-poster is-gone" : "hero-poster"}
       />
+      {live && !skipped ? (
+        <button
+          type="button"
+          className="hero-skip"
+          onClick={() => {
+            heroMotion.skipIntro = true;
+            heroMotion.intro = 1;
+            setSkipped(true);
+          }}
+        >
+          Skip intro
+        </button>
+      ) : null}
       {live ? (
         <HeroGuard
           onError={() => {

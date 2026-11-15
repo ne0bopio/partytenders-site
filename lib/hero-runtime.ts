@@ -1,7 +1,13 @@
+export const INTRO_MS = 2600;
+
 export const heroMotion = {
   x: 0,
   y: 0,
   scroll: 0,
+  /** 0 at the start of the pour, 1 when the still life has settled. */
+  intro: 0,
+  introStarted: 0,
+  skipIntro: false,
 };
 
 export type HeroQuality = "high" | "low";

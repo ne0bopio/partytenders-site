@@ -61,9 +61,8 @@ Redeploy after saving them. A missing Supabase URL or service role key does not 
 
 ```
 app/
-  layout.tsx          fonts, global CSS, share metadata
+  layout.tsx          fonts, global CSS, share metadata, favicon links
   globals.css         the existing stylesheet
-  icon.svg            favicon
   (site)/             public pages. The route group is not part of the URL.
     page.tsx          the one-page site
     layout.tsx        header and footer
@@ -86,7 +85,7 @@ supabase/migrations/  quote_requests table and RLS
 
 ## Logo
 
-Concept B is a draft. The client has not picked a final mark. The hero lockup reads `public/brand/logo-full-light.svg` (cream wordmark for the night background). `logo-full-light.png` is the same artwork for a place that cannot draw the outlined SVG.
+The mark is the Deco Monogram, a PT ligature in a chamfered art-deco badge. The hero lockup reads `public/brand/logo-full-light.svg` (cream type for the night background).
 
 To swap the logo, replace the files and keep the names:
 
@@ -94,9 +93,10 @@ To swap the logo, replace the files and keep the names:
 | --- | --- |
 | `logo-full-light.svg` / `.png` | Cream type. The hero lockup uses the SVG. |
 | `logo-full.svg` / `.png` | Night type, for a light background. |
-| `logo-mark.svg` / `.png` | Glass icon only. The stem is night `#150B0E`, so it is drawn for light backgrounds. |
+| `logo-mark-light.svg` / `.png` | Cream PT badge. Header on night. |
+| `logo-mark.svg` / `.png` | Night badge. Header on cream. |
 
-The wordmark and the tagline “Your party, we tend.” are outlined from Federo and Cormorant Garamond italic 500, so the lockup does not need the webfonts. If the new lockup is not 809.72×240, update `BRAND_LOGO_ASPECT` in `lib/brand.ts`. The typed headline stays in the image alt. “Jersey City & South Florida” and the quote button stay as live text.
+The lockup is 761.75×224. If a replacement is a different size, update `BRAND_LOGO_ASPECT` in `lib/brand.ts`. The header reads `logo-mark-light.svg` on dark grounds and `logo-mark.svg` on cream. Favicons are `public/favicon.svg`, `public/favicon.ico` (16, 32, and 48), `public/favicon-32.png`, `public/favicon-16.png`, and `public/apple-touch-icon.png` (180), declared in the root metadata. The typed headline stays in the image alt. “Jersey City & South Florida” and the quote button stay as live text.
 
 ## Fonts
 
