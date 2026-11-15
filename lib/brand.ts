@@ -4,15 +4,15 @@
  * `public/brand/` using the same names.
  *
  * - `logo-full-light.svg` / `.png` — cream type for dark backgrounds.
- *   The hero lockup uses the SVG. The 3D place card uses the same SVG
- *   and falls back to the PNG if the browser cannot rasterize it.
+ *   The hero lockup uses the SVG. The PNG is the same artwork for places
+ *   that cannot draw the outlined SVG.
  * - `logo-full.svg` / `.png` — night type for light backgrounds.
  * - `logo-mark.svg` / `.png` — the glass icon only, drawn for light
  *   backgrounds (the stem is night `#150B0E`).
  *
  * The wordmark and tagline are outlined paths (Federo, Cormorant Garamond
  * italic 500). If a replacement lockup is not this aspect, update
- * `BRAND_LOGO_ASPECT` so the 3D card stays in proportion.
+ * `BRAND_LOGO_ASPECT`.
  * Light artwork (cream `#F2E7D6`, brass `#D4AE69`) reads on the night hero.
  */
 export const BRAND_LOGO_ON_DARK = "/brand/logo-full-light.svg";

@@ -86,13 +86,13 @@ supabase/migrations/  quote_requests table and RLS
 
 ## Logo
 
-Concept B is a draft. The client has not picked a final mark. The hero reads `public/brand/logo-full-light.svg` (cream wordmark for the night background). The same file is drawn onto a small brass card in the 3D scene, with `logo-full-light.png` as the fallback if the SVG cannot be rasterized.
+Concept B is a draft. The client has not picked a final mark. The hero lockup reads `public/brand/logo-full-light.svg` (cream wordmark for the night background). `logo-full-light.png` is the same artwork for a place that cannot draw the outlined SVG.
 
 To swap the logo, replace the files and keep the names:
 
 | File | Use |
 | --- | --- |
-| `logo-full-light.svg` / `.png` | Cream type. Hero and 3D card. |
+| `logo-full-light.svg` / `.png` | Cream type. The hero lockup uses the SVG. |
 | `logo-full.svg` / `.png` | Night type, for a light background. |
 | `logo-mark.svg` / `.png` | Glass icon only. The stem is night `#150B0E`, so it is drawn for light backgrounds. |
 
