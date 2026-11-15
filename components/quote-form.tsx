@@ -17,6 +17,8 @@ type Draft = {
   mailto: string;
 };
 
+type Outcome = "saved" | "fallback";
+
 function toggleValue(current: string[], value: string, single: boolean) {
   const selected = current.includes(value);
   if (single) return selected ? [] : [value];
@@ -27,6 +29,8 @@ export function QuoteForm() {
   const [party, setParty] = useState<string[]>([]);
   const [services, setServices] = useState<string[]>([]);
   const [draft, setDraft] = useState<Draft | null>(null);
+  const [outcome, setOutcome] = useState<Outcome | null>(null);
+  const [saving, setSaving] = useState(false);
   const [copied, setCopied] = useState(false);
   const [copyFailed, setCopyFailed] = useState(false);
 
@@ -53,8 +57,9 @@ export function QuoteForm() {
     }
   }
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (saving) return;
     const form = event.currentTarget;
     const read = (name: string) => {
       const field = form.elements.namedItem(name);
@@ -71,19 +76,38 @@ export function QuoteForm() {
       contact: read("contact"),
     };
     const message = buildQuoteMessage(request);
-    const sms = buildSmsHref(message);
+    const next: Draft = {
+      message,
+      sms: buildSmsHref(message),
+      mailto: buildMailtoHref(message),
+    };
+    setSaving(true);
+    setCopied(false);
+    setCopyFailed(false);
+    let saved = false;
+    try {
+      const response = await fetch("/api/quotes", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ ...request, company: read("company") }),
+      });
+      const body = (await response.json().catch(() => null)) as { ok?: boolean } | null;
+      saved = response.ok && body?.ok === true;
+    } catch {
+      saved = false;
+    }
+    setDraft(next);
+    setOutcome(saved ? "saved" : "fallback");
+    setSaving(false);
     if (
+      !saved &&
       canOpenSms({
         userAgent: navigator.userAgent,
         maxTouchPoints: navigator.maxTouchPoints,
       })
     ) {
-      window.location.href = sms;
-      return;
+      window.location.href = next.sms;
     }
-    setCopied(false);
-    setCopyFailed(false);
-    setDraft({ message, sms, mailto: buildMailtoHref(message) });
   }
 
   return (
@@ -144,25 +168,32 @@ export function QuoteForm() {
           <input name="contact" autoComplete="email" />
         </label>
       </div>
-      <button className="send" type="submit">
-        Text Danielle with this request
+      <label className="hp" aria-hidden="true">
+        Company
+        <input name="company" tabIndex={-1} autoComplete="off" defaultValue="" />
+      </label>
+      <button className="send" type="submit" disabled={saving}>
+        {saving ? "Sending…" : "Send this request"}
       </button>
-      {draft ? (
+      {draft && outcome ? (
         <div className="q-done" role="status">
           <p>
-            This browser can&apos;t open a text to {PHONE_DISPLAY}. Copy the
-            request, or email it from your mail app.
+            {outcome === "saved"
+              ? "Danielle has this request. You can also text her the same note."
+              : `We couldn't file this from the site. Text Danielle at ${PHONE_DISPLAY}, or copy the note.`}
           </p>
           <p className="q-message">{draft.message}</p>
           <div className="q-actions">
-            <button type="button" onClick={() => copyMessage(draft.message)}>
+            <a href={draft.sms}>Text Danielle</a>
+            <button
+              className="ghost"
+              type="button"
+              onClick={() => copyMessage(draft.message)}
+            >
               {copied ? "Copied" : "Copy message"}
             </button>
             <a className="ghost" href={draft.mailto}>
               Email this request
-            </a>
-            <a className="ghost" href={draft.sms}>
-              Try Messages anyway
             </a>
           </div>
           {copyFailed ? (
@@ -171,9 +202,8 @@ export function QuoteForm() {
         </div>
       ) : null}
       <p className="q-note">
-        First booking on the site: 15% off any rental or mixer package. On a
-        phone, submit opens a text to Danielle for you to review and send. On a
-        computer, you can copy the request or email it.
+        First booking on the site: 15% off any rental or mixer package. Sending
+        saves the request for Danielle. You can also text it to her, or copy it.
       </p>
     </form>
   );

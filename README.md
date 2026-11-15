@@ -14,14 +14,48 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000). The admin placeholder is at [http://localhost:3000/admin](http://localhost:3000/admin).
 
 ```bash
+npm test
 npm run lint
 npm run build
 npm start
 ```
 
-No environment variables are required for this step. `.env.example` lists the names later steps will use. Copy it to `.env.local` when those steps start, and leave the values empty until then.
+The page and the production build run with no environment variables. A quote submit then keeps what the visitor typed and falls back to texting Danielle. Copy `.env.example` to `.env.local` when you connect Supabase and Resend.
 
 Hosting target is Vercel. `npm run build` is the production build.
+
+## Save a quote request
+
+The form posts to `POST /api/quotes`. The route checks the body, ignores a filled honeypot, rate-limits by IP (five posts in 15 minutes on that server process), inserts with the Supabase service role key, and emails Danielle through Resend. The visitor still gets the text, copy, and email actions. If the save fails, or the Supabase variables are missing, the form falls back to the text message and does not clear the fields.
+
+Anonymous visitors cannot read the table. There is no insert policy for the browser. Step 3 adds Danielle’s signed-in read and update access. The migration file says what that policy should look like.
+
+### Supabase
+
+1. Create a project at [supabase.com](https://supabase.com).
+2. In the SQL editor, run `supabase/migrations/20261115000000_create_quote_requests.sql`. With the Supabase CLI linked to the project, `supabase db push` runs the same file.
+3. In Project Settings → API, copy the project URL, the anon public key, and the service role key.
+
+### Resend
+
+1. Create an API key at [resend.com](https://resend.com).
+2. Verify the domain you will send from.
+3. Choose Danielle’s inbox as the notify address, and a from address on that verified domain.
+
+### Vercel
+
+In the project’s Environment Variables, add:
+
+| Name | Where it is used |
+| --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL` | Server, to reach the project |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Not used until step 3 |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server only. Inserts quote rows |
+| `RESEND_API_KEY` | Server only. Sends the notification |
+| `QUOTE_NOTIFY_EMAIL` | Danielle’s inbox |
+| `QUOTE_FROM_EMAIL` | Verified Resend sender |
+
+Redeploy after saving them. A missing Supabase URL or service role key does not crash the build. The form tells the visitor to text Danielle instead.
 
 ## Project structure
 
@@ -34,15 +68,20 @@ app/
     page.tsx          the one-page site
     layout.tsx        header and footer
   admin/page.tsx      placeholder for Danielle’s dashboard
+  api/quotes/route.ts saves a quote and emails Danielle
 components/           page sections. Client components are the header, the quote form, and the service links that preselect a chip.
 lib/
   site.ts             phone, links, and the form’s choices
-  quote.ts            builds the quote message. Step 2 swaps the transport, not this shape.
+  quote.ts            builds the text the visitor can still send
+  quote-schema.ts     zod validation for the post body
+  submit-quote.ts     save, then email, with the failure cases
+  email.ts            Resend wrapper
+  supabase-admin.ts   service-role client
+  rate-limit.ts       in-memory limit per IP
 public/fotos/         event photos
-.env.example          future Supabase and Stripe variable names
+supabase/migrations/  quote_requests table and RLS
+.env.example          Supabase, Resend, and Stripe variable names
 ```
-
-The quote form still prepares a text to Danielle at 484-358-2578. On a phone, submit opens that message for the visitor to review and send. On a computer, where `sms:` links do not open, the form shows the same message with copy and email actions. The site does not send it.
 
 ## Fonts
 
@@ -56,9 +95,7 @@ Anton, Archivo, Big Shoulders Display, Instrument Serif, and Instrument Sans are
 
 ## Roadmap
 
-1. This skeleton, with the current page ported.
-2. Save quote requests to Supabase and email them to Danielle. `lib/quote.ts` already returns the payload an API route can accept.
-3. A logged-in admin dashboard so Danielle can manage requests, using Supabase Auth. `/admin` is the empty page that dashboard will replace.
+1. The Next.js skeleton, with the current page ported. Done in the parent pull request.
+2. Save quote requests to Supabase and email them to Danielle. This branch. The text-message fallback stays.
+3. A logged-in admin dashboard so Danielle can manage requests, using Supabase Auth. `/admin` is the empty page that dashboard will replace. The migration notes the select and update policies to add.
 4. Online booking with Stripe deposits.
-
-Steps 2–4 are not built yet.

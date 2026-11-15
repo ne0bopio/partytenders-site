@@ -1,9 +1,9 @@
-import { PHONE_E164, QUOTE_EMAIL } from "@/lib/site";
+import { PHONE_E164, QUOTE_EMAIL } from "./site";
 
 /**
  * What the quote form collects.
- * Step 2 posts this object to an API route, which saves it in Supabase and
- * emails Danielle. This step only turns it into a message the visitor sends.
+ * `POST /api/quotes` validates this shape, stores it, and emails Danielle.
+ * The same text is what the visitor can still send by SMS.
  */
 export type QuoteRequest = {
   party: string[];
