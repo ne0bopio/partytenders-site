@@ -13,6 +13,7 @@ import {
   Color,
   FrontSide,
   MathUtils,
+  MeshBasicMaterial,
   MeshPhysicalMaterial,
   Object3D,
   PerspectiveCamera,
@@ -25,7 +26,7 @@ import {
   type InstancedMesh,
   type Mesh,
 } from "three";
-import { heroMotion, type HeroQuality } from "@/lib/hero-runtime";
+import { heroMotion, INTRO_MS, type HeroQuality } from "@/lib/hero-runtime";
 
 const CREAM = "#F2E7D6";
 const BRASS = "#D4AE69";
@@ -203,40 +204,141 @@ function useFeatherMap(): CanvasTexture | null {
   return map;
 }
 
+function easeOut(t: number): number {
+  const clamped = MathUtils.clamp(t, 0, 1);
+  return 1 - (1 - clamped) ** 3;
+}
+
+function advanceIntro() {
+  if (heroMotion.skipIntro) {
+    heroMotion.intro = 1;
+    return;
+  }
+  if (heroMotion.introStarted === 0) heroMotion.introStarted = performance.now();
+  heroMotion.intro = easeOut((performance.now() - heroMotion.introStarted) / INTRO_MS);
+}
+
+function Dust() {
+  const points = useRef<InstancedMesh>(null);
+  const count = 28;
+  const seeds = useMemo(
+    () =>
+      Array.from({ length: count }, (_, index) => ({
+        x: ((index * 37) % 20) / 10 - 1,
+        y: 0.8 + ((index * 17) % 16) / 8,
+        z: ((index * 11) % 16) / 10 - 0.6,
+        speed: 0.04 + (index % 5) * 0.015,
+      })),
+    [],
+  );
+  const dummy = useMemo(() => new Object3D(), []);
+  const geo = useMemo(() => new SphereGeometry(0.012, 6, 4), []);
+  const mat = useMemo(
+    () =>
+      new MeshBasicMaterial({
+        color: "#f2e7d6",
+        transparent: true,
+        opacity: 0.28,
+        depthWrite: false,
+      }),
+    [],
+  );
+  useLayoutEffect(() => () => {
+    geo.dispose();
+    mat.dispose();
+  }, [geo, mat]);
+  useFrame(({ clock }) => {
+    const mesh = points.current;
+    if (!mesh) return;
+    seeds.forEach((seed, index) => {
+      dummy.position.set(seed.x, ((seed.y + clock.elapsedTime * seed.speed) % 2.2) + 0.4, seed.z);
+      dummy.updateMatrix();
+      mesh.setMatrixAt(index, dummy.matrix);
+    });
+    mesh.instanceMatrix.needsUpdate = true;
+  });
+  return <instancedMesh ref={points} args={[geo, mat, count]} />;
+}
+
 function Rig({ spin }: { spin: RefObject<Group | null> }) {
   const pointer = useRef({ x: 0, y: 0 });
   const look = useMemo(() => new Vector3(), []);
 
   useFrame((state, delta) => {
+    advanceIntro();
+    const intro = heroMotion.intro;
+    const scroll = heroMotion.scroll;
     pointer.current.x = MathUtils.damp(pointer.current.x, heroMotion.x, 2.5, delta);
     pointer.current.y = MathUtils.damp(pointer.current.y, heroMotion.y, 2.5, delta);
     const group = spin.current;
     if (group) {
       group.rotation.y = state.clock.elapsedTime * 0.12 + pointer.current.x * 0.18;
-      group.rotation.z = pointer.current.x * -0.02;
-      group.position.y = heroMotion.scroll * 0.16;
+      group.rotation.z = pointer.current.x * -0.02 + scroll * 0.55;
+      group.rotation.x = scroll * -0.22;
+      group.position.y = scroll * 0.22 + (1 - intro) * 0.08;
     }
 
     const camera = state.camera;
     if (!(camera instanceof PerspectiveCamera)) return;
     const aspect = state.size.width / Math.max(state.size.height, 1);
     const fov = (camera.fov * Math.PI) / 180;
-    const distH = 1.18 / Math.tan(fov / 2);
-    const distW = 1.42 / (Math.tan(fov / 2) * aspect);
-    const dist = Math.max(distH, distW) * 1.04;
+    const distH = 1.28 / Math.tan(fov / 2);
+    const distW = 1.85 / (Math.tan(fov / 2) * aspect);
+    const dist = Math.max(distH, distW) * 1.02;
+    const introPull = (1 - intro) * 1.35;
     camera.position.x = MathUtils.damp(camera.position.x, pointer.current.x * 0.16, 2.6, delta);
     camera.position.y = MathUtils.damp(
       camera.position.y,
-      1.38 + pointer.current.y * -0.05 + heroMotion.scroll * 0.12,
-      2.6,
+      1.38 + pointer.current.y * -0.05 + scroll * 0.45 + introPull * 0.35,
+      2.4,
       delta,
     );
-    camera.position.z = MathUtils.damp(camera.position.z, dist, 2.6, delta);
-    look.set(pointer.current.x * 0.05, 1.08 - heroMotion.scroll * 0.08, 0);
+    camera.position.z = MathUtils.damp(camera.position.z, dist + introPull + scroll * 0.55, 2.2, delta);
+    look.set(pointer.current.x * 0.05, 1.08 - scroll * 0.25, 0);
     camera.lookAt(look);
   });
 
   return null;
+}
+
+const POCKETS: Array<[number, number, number, number]> = [
+  [0.05, 0.04, 0.02, 0.045],
+  [-0.07, -0.02, 0.05, 0.03],
+  [0.02, 0.08, -0.06, 0.025],
+  [-0.04, 0.01, -0.03, 0.02],
+  [0.08, -0.06, 0.01, 0.018],
+];
+
+function IceCube({
+  iceRef,
+  side,
+  geometry,
+  material,
+  frost,
+  pocketGeo,
+  pocketMat,
+  pockets,
+}: {
+  iceRef: RefObject<Group | null>;
+  side: 1 | -1;
+  geometry: RoundedBoxGeometry;
+  material: MeshPhysicalMaterial;
+  frost: MeshPhysicalMaterial;
+  pocketGeo: SphereGeometry;
+  pocketMat: MeshPhysicalMaterial;
+  pockets: number;
+}) {
+  const tilt: [number, number, number] = [0.45, side * 0.35, 0.25];
+  return (
+    <group ref={iceRef}>
+      <mesh geometry={geometry} material={material} dispose={null} rotation={tilt}>
+        {POCKETS.slice(0, pockets).map(([x, y, z, scale], index) => (
+          <mesh key={index} geometry={pocketGeo} material={pocketMat} position={[x, y, z]} scale={scale} dispose={null} />
+        ))}
+      </mesh>
+      <mesh geometry={geometry} material={frost} dispose={null} scale={1.045} rotation={tilt} />
+    </group>
+  );
 }
 
 export function HeroScene({
@@ -249,14 +351,17 @@ export function HeroScene({
   const spin = useRef<Group>(null);
   const bubbles = useRef<InstancedMesh>(null);
   const floorCaustic = useRef<ShaderMaterial>(null);
-  const iceA = useRef<Mesh>(null);
-  const iceB = useRef<Mesh>(null);
+  const iceA = useRef<Group>(null);
+  const iceB = useRef<Group>(null);
+  const liquid = useRef<Group>(null);
+  const ripple = useRef<Mesh>(null);
+  const meniscus = useRef<Mesh>(null);
   const dummy = useMemo(() => new Object3D(), []);
   const ready = useRef(false);
   const glassPoints = useMemo(() => buildGlassPoints(), []);
   const liquidPoints = useMemo(() => buildLiquidPoints(), []);
   const droplets = useMemo(() => makeDroplets(quality === "high" ? 9 : 5), [quality]);
-  const seeds = useMemo(() => makeBubbles(quality === "high" ? 8 : 4), [quality]);
+  const seeds = useMemo(() => makeBubbles(quality === "high" ? 16 : 7), [quality]);
   const feather = useFeatherMap();
   const radial = quality === "high" ? 96 : 48;
 
@@ -301,18 +406,47 @@ export function HeroScene({
   const iceMat = useMemo(
     () =>
       new MeshPhysicalMaterial({
-        color: "#f6f1e8",
+        color: "#e7eef2",
         metalness: 0,
-        roughness: 0.16,
-        transmission: 0.86,
-        thickness: 0.65,
+        roughness: 0.04,
+        transmission: 1,
+        thickness: 0.42,
         ior: 1.31,
-        attenuationColor: new Color("#f7f1e6"),
-        attenuationDistance: 0.35,
-        clearcoat: 0.85,
-        clearcoatRoughness: 0.12,
-        envMapIntensity: 1.15,
+        attenuationColor: new Color("#d5e6ee"),
+        attenuationDistance: 2.4,
+        clearcoat: 0.2,
+        clearcoatRoughness: 0.2,
+        envMapIntensity: 1.2,
         side: FrontSide,
+      }),
+    [],
+  );
+  const frostMat = useMemo(
+    () =>
+      new MeshPhysicalMaterial({
+        color: "#f4f7f8",
+        metalness: 0,
+        roughness: 0.85,
+        transmission: 0.25,
+        thickness: 0.05,
+        transparent: true,
+        opacity: 0.1,
+        depthWrite: false,
+        side: FrontSide,
+      }),
+    [],
+  );
+  const pocketGeo = useMemo(() => new SphereGeometry(1, 8, 6), []);
+  const pocketMat = useMemo(
+    () =>
+      new MeshPhysicalMaterial({
+        color: "#ffffff",
+        roughness: 0.15,
+        metalness: 0,
+        transmission: 0.15,
+        transparent: true,
+        opacity: 0.55,
+        depthWrite: false,
       }),
     [],
   );
@@ -335,8 +469,11 @@ export function HeroScene({
       dropGeo.dispose();
       dropMat.dispose();
       iceMat.dispose();
+      frostMat.dispose();
+      pocketGeo.dispose();
+      pocketMat.dispose();
     };
-  }, [bubbleGeo, bubbleMat, dropGeo, dropMat, iceGeo, iceMat]);
+  }, [bubbleGeo, bubbleMat, dropGeo, dropMat, frostMat, iceGeo, iceMat, pocketGeo, pocketMat]);
 
   useLayoutEffect(() => {
     const mesh = bubbles.current;
@@ -355,14 +492,36 @@ export function HeroScene({
 
   useFrame((state) => {
     const time = state.clock.elapsedTime;
+    advanceIntro();
+    const intro = heroMotion.intro;
     if (floorCaustic.current) floorCaustic.current.uniforms.uTime.value = time;
+    const camera = state.camera;
+    const aspect = state.size.width / Math.max(state.size.height, 1);
+    const fov = camera instanceof PerspectiveCamera ? (camera.fov * Math.PI) / 180 : 0.52;
+    const half = Math.tan(fov / 2) * Math.max(camera.position.z, 3.2) * aspect;
+    const reach = Math.min(0.92, Math.max(0.48, half - 0.34));
+    const drop = (1 - intro) ** 2 * 1.7;
     if (iceA.current) {
-      iceA.current.position.y = 1.55 + Math.sin(time * 0.4) * 0.03;
+      iceA.current.position.set(reach, 1.58 + Math.sin(time * 0.4) * 0.03 * intro + drop, 0.22);
       iceA.current.rotation.y = time * 0.08;
     }
     if (iceB.current) {
-      iceB.current.position.y = 2.05 + Math.sin(time * 0.33 + 1.2) * 0.025;
-      iceB.current.rotation.x = 0.4 + Math.sin(time * 0.14) * 0.05;
+      iceB.current.position.set(-reach * 0.78, 1.95 + Math.sin(time * 0.33 + 1.2) * 0.025 * intro + drop * 1.15, 0.05);
+      iceB.current.rotation.x = 0.15 + Math.sin(time * 0.14) * 0.05;
+    }
+    if (liquid.current) {
+      const fill = 0.12 + intro * 0.88;
+      liquid.current.scale.set(1, fill, 1);
+      liquid.current.position.y = (1 - fill) * -0.55;
+    }
+    if (meniscus.current) {
+      meniscus.current.scale.set(1 + Math.sin(time * 1.4) * 0.015, 1, 1 + Math.cos(time * 1.1) * 0.015);
+    }
+    if (ripple.current) {
+      const splash = MathUtils.clamp((intro - 0.62) / 0.38, 0, 1);
+      ripple.current.scale.setScalar(0.25 + splash * 1.7);
+      const material = ripple.current.material;
+      if (!Array.isArray(material)) material.opacity = (1 - splash) * 0.45 * intro;
     }
 
     const mesh = bubbles.current;
@@ -444,22 +603,24 @@ export function HeroScene({
       </mesh>
 
       <group ref={spin} position={[0, 0.02, 0]}>
-        <mesh renderOrder={1}>
-          <latheGeometry args={[liquidPoints, radial]} />
-          <meshPhysicalMaterial
-            color="#9d1832"
-            roughness={0.06}
-            metalness={0}
-            transmission={0}
-            thickness={1.3}
-            ior={1.34}
-            attenuationColor="#4a0714"
-            attenuationDistance={0.38}
-            envMapIntensity={0.45}
-            side={FrontSide}
-          />
-        </mesh>
-        <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, LIQUID_Y + 0.004, 0]}>
+        <group ref={liquid}>
+          <mesh renderOrder={1}>
+            <latheGeometry args={[liquidPoints, radial]} />
+            <meshPhysicalMaterial
+              color="#9d1832"
+              roughness={0.06}
+              metalness={0}
+              transmission={0}
+              thickness={1.3}
+              ior={1.34}
+              attenuationColor="#4a0714"
+              attenuationDistance={0.38}
+              envMapIntensity={0.45}
+              side={FrontSide}
+            />
+          </mesh>
+        </group>
+        <mesh ref={meniscus} rotation={[Math.PI / 2, 0, 0]} position={[0, LIQUID_Y + 0.004, 0]}>
           <torusGeometry args={[lip, 0.011, 10, quality === "high" ? 80 : 40]} />
           <meshPhysicalMaterial
             color="#f0d2d4"
@@ -517,24 +678,33 @@ export function HeroScene({
 
         <instancedMesh ref={bubbles} args={[bubbleGeo, bubbleMat, seeds.length]} />
 
-        <mesh
-          ref={iceA}
+        <mesh ref={ripple} rotation={[Math.PI / 2, 0, 0]} position={[0, LIQUID_Y + 0.02, 0]}>
+          <ringGeometry args={[0.18, 0.22, quality === "high" ? 48 : 24]} />
+          <meshBasicMaterial color={CREAM} transparent opacity={0} depthWrite={false} />
+        </mesh>
+
+        <IceCube
+          iceRef={iceA}
+          side={1}
           geometry={iceGeo}
           material={iceMat}
-          dispose={null}
-          position={[1.38, 1.55, 0.48]}
-          rotation={[0.5, 0.2, 0.35]}
+          frost={frostMat}
+          pocketGeo={pocketGeo}
+          pocketMat={pocketMat}
+          pockets={quality === "high" ? 5 : 3}
         />
-        <mesh
-          ref={iceB}
+        <IceCube
+          iceRef={iceB}
+          side={-1}
           geometry={iceGeo}
           material={iceMat}
-          dispose={null}
-          position={[-1.22, 2.05, 0.35]}
-          rotation={[0.25, 0.8, 0.4]}
-          scale={0.58}
+          frost={frostMat}
+          pocketGeo={pocketGeo}
+          pocketMat={pocketMat}
+          pockets={quality === "high" ? 4 : 2}
         />
       </group>
+      {quality === "high" ? <Dust /> : null}
     </>
   );
 }
