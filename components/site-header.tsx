@@ -40,25 +40,24 @@ export function SiteHeader() {
     const floats = [...document.querySelectorAll<HTMLElement>("[data-speed]")];
     const spins = [...document.querySelectorAll<HTMLElement>("[data-spin]")];
 
-    for (const el of floats) {
-      if (el.dataset.rot) el.style.setProperty("--rot", el.dataset.rot);
-    }
+    const updateHeader = () => {
+      if (open) return;
+      const y = header.offsetHeight / 2;
+      const under = worlds.find((section) => {
+        const rect = section.getBoundingClientRect();
+        return rect.top <= y && rect.bottom > y;
+      });
+      const nextWorld = under?.dataset.world ?? "night";
+      const past =
+        !!lockup && lockup.getBoundingClientRect().bottom < header.offsetHeight;
+      setWorld((current) => (current === nextWorld ? current : nextWorld));
+      setShowMark((current) => (current === past ? current : past));
+      setSolid((current) => (current === past ? current : past));
+    };
 
-    const frame = () => {
-      if (!open) {
-        const y = header.offsetHeight / 2;
-        const under = worlds.find((section) => {
-          const rect = section.getBoundingClientRect();
-          return rect.top <= y && rect.bottom > y;
-        });
-        const nextWorld = under?.dataset.world ?? "night";
-        const past =
-          !!lockup && lockup.getBoundingClientRect().bottom < header.offsetHeight;
-        setWorld((current) => (current === nextWorld ? current : nextWorld));
-        setShowMark((current) => (current === past ? current : past));
-        setSolid((current) => (current === past ? current : past));
-      }
+    const paintFloats = () => {
       if (reduce) return;
+      if (document.documentElement.dataset.pageReady !== "1") return;
       const viewport = window.innerHeight;
       for (const el of floats) {
         const section = el.closest("section");
@@ -84,17 +83,31 @@ export function SiteHeader() {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
-        frame();
+        updateHeader();
+        paintFloats();
         ticking = false;
       });
     };
 
-    frame();
+    updateHeader();
+    const observer = new MutationObserver(() => {
+      if (document.documentElement.dataset.pageReady === "1") {
+        paintFloats();
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-page-ready"],
+    });
+    if (document.documentElement.dataset.pageReady === "1") paintFloats();
+
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", frame);
+    window.addEventListener("resize", onScroll);
     return () => {
+      observer.disconnect();
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", frame);
+      window.removeEventListener("resize", onScroll);
     };
   }, [open]);
 

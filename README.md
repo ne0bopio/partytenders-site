@@ -79,9 +79,24 @@ lib/
   supabase-admin.ts   service-role client
   rate-limit.ts       in-memory limit per IP
 public/fotos/         event photos
+public/brand/         draft logo files and the hero poster. See Logo.
 supabase/migrations/  quote_requests table and RLS
 .env.example          Supabase, Resend, and Stripe variable names
 ```
+
+## Logo
+
+Concept B is a draft. The client has not picked a final mark. The hero lockup reads `public/brand/logo-full-light.svg` (cream wordmark for the night background). `logo-full-light.png` is the same artwork for a place that cannot draw the outlined SVG.
+
+To swap the logo, replace the files and keep the names:
+
+| File | Use |
+| --- | --- |
+| `logo-full-light.svg` / `.png` | Cream type. The hero lockup uses the SVG. |
+| `logo-full.svg` / `.png` | Night type, for a light background. |
+| `logo-mark.svg` / `.png` | Glass icon only. The stem is night `#150B0E`, so it is drawn for light backgrounds. |
+
+The wordmark and the tagline “Your party, we tend.” are outlined from Federo and Cormorant Garamond italic 500, so the lockup does not need the webfonts. If the new lockup is not 809.72×240, update `BRAND_LOGO_ASPECT` in `lib/brand.ts`. The typed headline stays in the image alt. “Jersey City & South Florida” and the quote button stay as live text.
 
 ## Fonts
 
