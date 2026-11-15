@@ -9,8 +9,6 @@ export const QUOTE_EMAIL = "";
 export const INSTAGRAM_URL =
   "https://www.instagram.com/partytenders_yourpartywetend";
 export const FACEBOOK_URL = "https://www.facebook.com/eventsyourpartywetend";
-export const MORNING_JOE_URL =
-  "https://www.ezcater.com/catering/pvt/the-morning-joe-3";
 export const FUSION_URL = "https://fusionmixologycart.vercel.app";
 
 export const PARTY_TYPES = [

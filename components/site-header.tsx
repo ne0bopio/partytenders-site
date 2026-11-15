@@ -5,10 +5,6 @@ import { PHONE_DISPLAY, PHONE_E164 } from "@/lib/site";
 
 const LINKS = [
   { href: "#bar", label: "The Bar" },
-  { href: "#team", label: "The Team" },
-  { href: "#kitchen", label: "The Kitchen" },
-  { href: "#rentals", label: "The Rentals" },
-  { href: "#morning", label: "The Morning Joe" },
   { href: "#about", label: "About Danielle", small: true },
   { href: "#fusion", label: "Fusion Mixology Cart", small: true },
   { href: "#quote", label: "Get a quote", small: true },

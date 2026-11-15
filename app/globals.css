@@ -31,7 +31,6 @@
 .w-night{ --bg:var(--night); --fg:var(--cream); --acc:var(--brass); --frame:var(--brass); }
 .w-bar  { --bg:var(--bar);   --fg:var(--barfg); --acc:var(--barfg); --frame:var(--barfg); }
 .w-team { --bg:var(--team);  --fg:var(--teamfg);--acc:var(--teamfg);--frame:var(--teamfg); }
-.w-kit  { --bg:var(--kit);   --fg:var(--kitfg); --acc:var(--kitfg); --frame:var(--kitfg); }
 .w-cream{ --bg:var(--cream); --fg:var(--night); --acc:var(--bar);   --frame:var(--night); }
 
 /* ---------- base ---------- */
@@ -48,7 +47,6 @@ main > section, .foot{ background:var(--bg); color:var(--fg); position:relative 
   color:var(--cream); transition:background-color .35s, color .35s; }
 .hdr[data-w="bar"]{ background:var(--bar); color:var(--barfg) }
 .hdr[data-w="team"]{ background:var(--team); color:var(--teamfg) }
-.hdr[data-w="kit"]{ background:var(--kit); color:var(--kitfg) }
 .hdr[data-w="cream"]{ background:var(--cream); color:var(--night) }
 .hdr[data-w="night"].solid{ background:var(--night) }
 .hdr-menu{ justify-self:start; display:flex; align-items:center; gap:10px; background:none; border:0; color:inherit; font:600 .9rem var(--fb); padding:10px 4px; cursor:pointer; min-height:44px }
@@ -132,36 +130,11 @@ main > section, .foot{ background:var(--bg); color:var(--fg); position:relative 
 .lname{ margin:10px 0 0; display:grid; justify-items:center; line-height:.84; position:relative; z-index:1 }
 .lname i{ font:italic var(--faw) clamp(1.7rem,6.4vw,3.2rem)/1 var(--fa); color:var(--acc); margin-bottom:.02em }
 .lname span{ font:var(--fdw) min(calc(88vw / (var(--n) * var(--cw))), 42vw, 17rem)/.86 var(--fd); letter-spacing:var(--fdtrack); text-transform:uppercase }
-.lname.two span + span{ margin-top:.02em }
 .ltext{ margin:30px auto 0; max-width:44ch; font-size:1.06rem }
 .line-col{ height:min(112vw,600px); margin-top:-3vw; z-index:2 }
 .line-col .c1{ left:0; top:8%; width:min(44%,330px); aspect-ratio:4/5 }
-.line-col .c1.tall{ aspect-ratio:3/4.4 }
 .line-col .c2{ left:50%; translate:-50% var(--py,0px); top:5%; width:min(46%,320px); aspect-ratio:3/4.1; z-index:1 }
 .line-col .c3{ right:0; top:46%; width:min(42%,320px); aspect-ratio:4/3; z-index:2 }
-
-/* kitchen: a menu card instead of photos */
-.menucard{ max-width:440px; margin:34px auto 0; padding:26px 22px 20px;
-  box-shadow:0 0 0 1.5px var(--frame), 0 0 0 8px var(--bg), 0 0 0 9.5px var(--frame) }
-.mc-h{ margin:0 0 12px; font:var(--fdw) 1.15rem/1 var(--fd); letter-spacing:.04em; text-transform:uppercase }
-.menucard ul{ list-style:none; margin:0; padding:0; text-align:left }
-.menucard li{ display:flex; align-items:baseline; gap:8px; padding:7px 0 }
-.menucard li span{ font:italic var(--faw) 1.45rem/1.15 var(--fa) }
-.menucard li i{ flex:1; border-bottom:1.5px dotted currentColor; transform:translateY(-4px); min-width:16px }
-.menucard li em{ font:600 .82rem var(--fb); font-style:normal }
-
-/* rentals: brass inventory on night */
-.rentals .inventory{ list-style:none; margin:30px auto 0; padding:0; max-width:560px }
-.inventory li{ display:flex; justify-content:center; align-items:baseline; flex-wrap:wrap; gap:4px 12px; padding:12px 0; border-top:1px solid color-mix(in srgb,var(--brass) 45%,transparent) }
-.inventory li:last-child{ border-bottom:1px solid color-mix(in srgb,var(--brass) 45%,transparent) }
-.inventory span{ font:var(--fdw) clamp(1.7rem,6.6vw,2.6rem)/1 var(--fd); letter-spacing:var(--fdtrack); text-transform:uppercase }
-.inventory em{ font:italic var(--faw) 1.25rem/1 var(--fa); color:var(--brass) }
-.st-c{ position:relative; margin:-24px 0 0 auto; right:-1%; background:var(--bar); color:var(--barfg); width:clamp(96px,26vw,140px) }
-
-/* morning joe */
-.breakfast{ list-style:none; margin:30px auto 0; padding:0; max-width:520px }
-.breakfast li{ font:italic var(--faw) clamp(1.35rem,5vw,1.8rem)/1.2 var(--fa); padding:9px 0; border-top:1px solid color-mix(in srgb,var(--night) 22%,transparent) }
-.breakfast li:last-child{ border-bottom:1px solid color-mix(in srgb,var(--night) 22%,transparent) }
 
 /* ---------- proof ---------- */
 .proof{ padding:96px 18px 104px; text-align:center }
@@ -231,7 +204,6 @@ legend{ padding:0; margin-bottom:10px; font:italic var(--faw) 1.55rem/1.1 var(--
   .line{ padding:120px 32px 130px }
   .line-col{ height:560px; margin-top:-16px }
   .line-col .c2{ top:7% }
-  .st-c{ margin:-70px 0 0 calc(50% + 190px); right:auto }
   .line-col .c1{ left:4%; width:280px }
   .line-col .c2{ width:300px }
   .line-col .c3{ right:4%; width:320px }

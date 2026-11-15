@@ -7,7 +7,6 @@ const WORDS = [
   "Catering",
   "Rentals",
   "Mixer packages",
-  "The Morning Joe",
 ] as const;
 
 function Star() {

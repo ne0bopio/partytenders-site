@@ -202,8 +202,8 @@ export function QuoteForm() {
         </div>
       ) : null}
       <p className="q-note">
-        First booking on the site: 15% off any rental or mixer package. Sending
-        saves the request for Danielle. You can also text it to her, or copy it.
+        Sending saves the request for Danielle. You can also text it to her, or
+        copy it.
       </p>
     </form>
   );

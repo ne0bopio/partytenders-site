@@ -55,7 +55,9 @@ export function BarSection() {
         <NeedLink href="#quote" need="Bartenders">
           Ask about the bar
         </NeedLink>
-        <a href="#rentals">Mixer packages and bars</a>
+        <NeedLink href="#quote" need="Mixer package">
+          Ask about a mixer package
+        </NeedLink>
       </div>
     </section>
   );
