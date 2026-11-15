@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="8 22 192 234" role="img" aria-labelledby="title desc">
-  <title id="title">PartyTenders mark</title>
-  <desc id="desc">Icon of a coupe cocktail glass with a brass rim, wine-red fill, cream bubbles and a brass sparkle. PartyTenders.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="8.00 28.00 184.00 250.00" role="img" aria-labelledby="title desc">
+  <title id="title">PartyTenders Line Coupe mark</title>
+  <desc id="desc">PartyTenders line-coupe mark: a single-weight drawing of a saucer coupe, with the wordmark PARTYTENDERS and the tagline Your party, we tend.</desc>
   
-    <g id="mark">
-      <path d="M 94.60,159.00 C 95.60,178.00 95.30,200.00 95.00,216.00 C 94.90,219.40 93.40,221.40 90.20,222.60 C 86.20,224.00 82.80,226.00 82.80,229.20 L 82.80,231.00 L 117.20,231.00 L 117.20,229.20 C 117.20,226.00 113.80,224.00 109.80,222.60 C 106.60,221.40 105.10,219.40 105.00,216.00 C 104.70,200.00 104.40,178.00 105.40,159.00 C 103.60,161.20 96.40,161.20 94.60,159.00 Z" fill="#150B0E"/>
-      <ellipse cx="100" cy="237.2" rx="44" ry="9.4" fill="#150B0E"/>
-      <path d="M 32.00,86.00 C 36.00,92.50 40.50,102.00 46.00,114.00 C 54.50,132.50 74.00,150.50 100.00,162.00 C 126.00,150.50 145.50,132.50 154.00,114.00 C 159.50,102.00 164.00,92.50 168.00,86.00 C 148.00,96.50 52.00,96.50 32.00,86.00 Z" fill="#B91C3A"/>
-      <g fill="#F6EFE0">
-      <circle cx="80" cy="112" r="4.0"/>
-      <circle cx="92" cy="124" r="3.0"/>
-      <circle cx="74" cy="126" r="2.2"/>
-    </g>
-      <path d="M 100.00,64.50 C 145.50,64.50 182.00,71.40 182.00,80.00 C 182.00,88.60 145.50,95.50 100.00,95.50 C 54.50,95.50 18.00,88.60 18.00,80.00 C 18.00,71.40 54.50,64.50 100.00,64.50 Z M 100.00,70.80 C 59.00,70.80 26.50,76.00 26.50,80.20 C 26.50,84.40 59.00,89.60 100.00,89.60 C 141.00,89.60 173.50,84.40 173.50,80.20 C 173.50,76.00 141.00,70.80 100.00,70.80 Z" fill="#D4AE69" fill-rule="evenodd"/>
-      <path d="M 52.00,33.00 L 56.04,41.96 L 65.00,46.00 L 56.04,50.04 L 52.00,59.00 L 47.96,50.04 L 39.00,46.00 L 47.96,41.96 Z" fill="#D4AE69"/>
+    <g id="mark-coupe" fill="none" stroke="#150B0E" stroke-width="7.0" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M 20.00,54.00 A 80.00 6.80 0 1 0 180.00,54.00 A 80.00 6.80 0 1 0 20.00,54.00"/>
+      <path d="M 31.20,56.38 A 68.80 5.78 0 1 0 168.80,56.38 A 68.80 5.78 0 1 0 31.20,56.38" stroke-width="4.8999999999999995"/>
+      <path d="M 20.00,54.00 C 20.00,75.84 32.80,82.60 32.80,82.60 C 63.04,102.78 85.60,109.50 100.00,109.50 C 114.40,109.50 136.96,102.78 167.20,82.60 C 167.20,82.60 180.00,75.84 180.00,54.00"/>
+      <path d="M 100.00,109.50 L 100.00,234.00"/>
+      <path d="M 60.00,234.00 A 40.00 3.60 0 1 0 140.00,234.00 A 40.00 3.60 0 1 0 60.00,234.00"/>
     </g>
     
 </svg>

@@ -52,7 +52,8 @@ main > section, .foot{ background:var(--bg); color:var(--fg); position:relative 
 .hdr-menu{ justify-self:start; display:flex; align-items:center; gap:10px; background:none; border:0; color:inherit; font:600 .9rem var(--fb); padding:10px 4px; cursor:pointer; min-height:44px }
 .burger{ display:grid; gap:4px; width:22px }
 .burger i{ height:1.5px; background:currentColor; display:block }
-.hdr-mark{ padding:11px 4px; font:var(--fdw) min(1.35rem, calc(34vw / (12 * var(--cw))))/1 var(--fd); letter-spacing:var(--fdtrack); text-transform:uppercase; text-decoration:none; opacity:0; transform:translateY(6px); transition:opacity .3s, transform .3s; }
+.hdr-mark{ padding:8px 4px; display:flex; align-items:center; text-decoration:none; opacity:0; transform:translateY(6px); transition:opacity .3s, transform .3s; }
+.hdr-mark img{ height:34px; width:auto }
 .hdr.show-mark .hdr-mark{ opacity:1; transform:none }
 .hdr-quote{ justify-self:end; font:600 .9rem var(--fb); text-decoration:none; border:1.5px solid currentColor; border-radius:99px; padding:11px 14px; white-space:nowrap; min-height:44px; display:inline-flex; align-items:center }
 

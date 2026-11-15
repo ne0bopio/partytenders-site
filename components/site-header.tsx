@@ -1,6 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { BRAND_MARK, BRAND_MARK_ON_DARK } from "@/lib/brand";
 import { PHONE_DISPLAY, PHONE_E164 } from "@/lib/site";
 
 const LINKS = [
@@ -144,7 +146,13 @@ export function SiteHeader() {
           Menu
         </button>
         <a className="hdr-mark" href="#top" aria-label="PartyTenders, back to top">
-          PartyTenders
+          <Image
+            src={!open && world === "cream" ? BRAND_MARK : BRAND_MARK_ON_DARK}
+            alt=""
+            width={40}
+            height={54}
+            unoptimized
+          />
         </a>
         <a className="hdr-quote" href="#quote">
           Get a quote

@@ -86,7 +86,7 @@ supabase/migrations/  quote_requests table and RLS
 
 ## Logo
 
-Concept B is a draft. The client has not picked a final mark. The hero lockup reads `public/brand/logo-full-light.svg` (cream wordmark for the night background). `logo-full-light.png` is the same artwork for a place that cannot draw the outlined SVG.
+The current mark is Line Coupe. The hero lockup reads `public/brand/logo-full-light.svg` (cream type for the night background). `logo-full-light.png` is the same artwork for a place that cannot draw the SVG.
 
 To swap the logo, replace the files and keep the names:
 
@@ -94,9 +94,10 @@ To swap the logo, replace the files and keep the names:
 | --- | --- |
 | `logo-full-light.svg` / `.png` | Cream type. The hero lockup uses the SVG. |
 | `logo-full.svg` / `.png` | Night type, for a light background. |
-| `logo-mark.svg` / `.png` | Glass icon only. The stem is night `#150B0E`, so it is drawn for light backgrounds. |
+| `logo-mark-light.svg` / `.png` | Cream line coupe for dark backgrounds. Header and favicon. |
+| `logo-mark.svg` / `.png` | Night line coupe for light backgrounds. |
 
-The wordmark and the tagline “Your party, we tend.” are outlined from Federo and Cormorant Garamond italic 500, so the lockup does not need the webfonts. If the new lockup is not 809.72×240, update `BRAND_LOGO_ASPECT` in `lib/brand.ts`. The typed headline stays in the image alt. “Jersey City & South Florida” and the quote button stay as live text.
+The wordmark and the tagline “Your party, we tend.” are outlined paths. The current lockup is the Line Coupe, 760.03×224. If a replacement is a different size, update `BRAND_LOGO_ASPECT` in `lib/brand.ts`. The header and the favicon use `logo-mark-light.svg` on dark grounds and `logo-mark.svg` on cream. The typed headline stays in the image alt. “Jersey City & South Florida” and the quote button stay as live text.
 
 ## Fonts
 

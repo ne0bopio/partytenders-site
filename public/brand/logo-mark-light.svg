@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="8.00 28.00 184.00 250.00" role="img" aria-labelledby="title desc">
+  <title id="title">PartyTenders Line Coupe mark (on dark)</title>
+  <desc id="desc">PartyTenders line-coupe mark: a single-weight drawing of a saucer coupe, with the wordmark PARTYTENDERS and the tagline Your party, we tend.</desc>
+  
+    <g id="mark-coupe" fill="none" stroke="#F2E7D6" stroke-width="7.0" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M 20.00,54.00 A 80.00 6.80 0 1 0 180.00,54.00 A 80.00 6.80 0 1 0 20.00,54.00"/>
+      <path d="M 31.20,56.38 A 68.80 5.78 0 1 0 168.80,56.38 A 68.80 5.78 0 1 0 31.20,56.38" stroke-width="4.8999999999999995"/>
+      <path d="M 20.00,54.00 C 20.00,75.84 32.80,82.60 32.80,82.60 C 63.04,102.78 85.60,109.50 100.00,109.50 C 114.40,109.50 136.96,102.78 167.20,82.60 C 167.20,82.60 180.00,75.84 180.00,54.00"/>
+      <path d="M 100.00,109.50 L 100.00,234.00"/>
+      <path d="M 60.00,234.00 A 40.00 3.60 0 1 0 140.00,234.00 A 40.00 3.60 0 1 0 60.00,234.00"/>
+    </g>
+    
+</svg>

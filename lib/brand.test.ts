@@ -19,14 +19,15 @@ describe("draft logo assets", () => {
     const light = readBrand("logo-full-light.svg");
     assert.match(light, /#F2E7D6/);
     assert.match(light, /#D4AE69/);
-    assert.match(light, /#B91C3A/);
     assert.match(light, /Your party, we tend/);
+    assert.ok(Math.abs(BRAND_LOGO_ASPECT - 760.03 / 224) < 0.001);
   });
 
-  it("keeps the night lockup and the light-background mark", () => {
+  it("keeps the night lockup and both coupe marks", () => {
     assert.equal(BRAND_LOGO_ON_LIGHT, "/brand/logo-full.svg");
     assert.equal(BRAND_MARK, "/brand/logo-mark.svg");
     assert.match(readBrand("logo-full.svg"), /#150B0E/);
-    assert.match(readBrand("logo-mark.svg"), /id="mark"/);
+    assert.match(readBrand("logo-mark.svg"), /id="mark-coupe"/);
+    assert.match(readBrand("logo-mark-light.svg"), /#F2E7D6/);
   });
 });

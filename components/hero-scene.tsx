@@ -31,9 +31,9 @@ import { heroMotion, INTRO_MS, type HeroQuality } from "@/lib/hero-runtime";
 const CREAM = "#F2E7D6";
 const BRASS = "#D4AE69";
 
-const BOWL_BOTTOM = 1.02;
-const RIM_Y = 1.92;
-const RIM_R = 1.05;
+const BOWL_BOTTOM = 1.16;
+const RIM_Y = 1.86;
+const RIM_R = 1.08;
 const LIQUID_Y = 1.74;
 
 const CAUSTIC_VERT = `
@@ -65,8 +65,8 @@ const CAUSTIC_FRAG = `
 `;
 
 function bowlRadius(t: number): number {
-  const curve = Math.pow(MathUtils.clamp(t, 0, 1), 0.86);
-  return 0.04 + (RIM_R - 0.04) * curve;
+  const curve = Math.pow(MathUtils.clamp(t, 0, 1), 0.46);
+  return 0.1 + (RIM_R - 0.1) * curve;
 }
 
 function outerRadius(y: number): number {
