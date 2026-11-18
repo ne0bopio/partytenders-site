@@ -2,9 +2,24 @@
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { Component, useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type PointerEvent as ReactPointerEvent,
+  type ReactNode,
+  Component,
+} from "react";
 import { BRAND_POSTER } from "@/lib/brand";
-import { canUseWebGL, heroMotion, prefersReducedMotion } from "@/lib/hero-runtime";
+import {
+  classifyDrag,
+  heroMotion,
+  prefersReducedMotion,
+  canUseWebGL,
+  YAW_PER_PX,
+  type DragAxis,
+} from "@/lib/hero-runtime";
 
 const HeroCanvas = dynamic(
   () => import("@/components/hero-canvas").then((mod) => mod.HeroCanvas),
@@ -42,25 +57,38 @@ function motionMode(): "live" | "static" {
   return "live";
 }
 
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
+type Gesture = {
+  id: number;
+  touch: boolean;
+  axis: DragAxis;
+  originX: number;
+  originY: number;
+  lastX: number;
+  lastT: number;
+};
+
 export function HeroStage() {
   const stageRef = useRef<HTMLDivElement>(null);
+  const gesture = useRef<Gesture | null>(null);
   const [failed, setFailed] = useState(false);
   const [ready, setReady] = useState(false);
   const [active, setActive] = useState(true);
   const [skipped, setSkipped] = useState(false);
+  const [dragging, setDragging] = useState(false);
   const mode = useSyncExternalStore(subscribeMotion, motionMode, () => "pending" as const);
   const live = mode === "live" && !failed;
+  const view = live ? "live" : mode === "pending" ? "pending" : "poster";
 
   useEffect(() => {
     if (!live) return;
-    if (prefersReducedMotion()) {
-      heroMotion.skipIntro = true;
-      heroMotion.intro = 1;
-      return;
-    }
     heroMotion.skipIntro = false;
     heroMotion.intro = 0;
-    heroMotion.introStarted = performance.now();
+    heroMotion.introStarted = 0;
+    heroMotion.dragging = false;
   }, [live]);
 
   useEffect(() => {
@@ -96,7 +124,7 @@ export function HeroStage() {
     const fine = window.matchMedia("(pointer: fine)").matches;
 
     const onMove = (event: PointerEvent) => {
-      if (!fine) return;
+      if (!fine || heroMotion.dragging) return;
       heroMotion.x = (event.clientX / window.innerWidth) * 2 - 1;
       heroMotion.y = (event.clientY / window.innerHeight) * 2 - 1;
     };
@@ -126,8 +154,81 @@ export function HeroStage() {
     };
   }, [live]);
 
+  function releaseGesture(pointerId: number) {
+    const current = gesture.current;
+    if (!current || current.id !== pointerId) return;
+    gesture.current = null;
+    heroMotion.dragging = false;
+    setDragging(false);
+  }
+
+  function onPointerDown(event: ReactPointerEvent<HTMLDivElement>) {
+    if (!live) return;
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    const target = event.target as HTMLElement | null;
+    if (target?.closest("button, a")) return;
+    const touch = event.pointerType === "touch";
+    gesture.current = {
+      id: event.pointerId,
+      touch,
+      axis: touch ? "pending" : "rotate",
+      originX: event.clientX,
+      originY: event.clientY,
+      lastX: event.clientX,
+      lastT: performance.now(),
+    };
+    if (!touch) {
+      event.currentTarget.setPointerCapture(event.pointerId);
+      heroMotion.dragging = true;
+      setDragging(true);
+    }
+  }
+
+  function onPointerMove(event: ReactPointerEvent<HTMLDivElement>) {
+    const current = gesture.current;
+    if (!current || current.id !== event.pointerId || current.axis === "scroll") return;
+
+    if (current.axis === "pending") {
+      const axis = classifyDrag(event.clientX - current.originX, event.clientY - current.originY);
+      if (axis === "pending") return;
+      if (axis === "scroll") {
+        current.axis = "scroll";
+        gesture.current = null;
+        heroMotion.dragging = false;
+        setDragging(false);
+        return;
+      }
+      current.axis = "rotate";
+      event.currentTarget.setPointerCapture(event.pointerId);
+      heroMotion.dragging = true;
+      setDragging(true);
+    }
+
+    const now = performance.now();
+    const dt = Math.max(0.016, (now - current.lastT) / 1000);
+    const dx = event.clientX - current.lastX;
+    const deltaYaw = dx * YAW_PER_PX;
+    heroMotion.yaw += deltaYaw;
+    const instant = deltaYaw / dt;
+    heroMotion.spinVelocity = clamp(heroMotion.spinVelocity * 0.35 + instant * 0.65, -3.4, 3.4);
+    current.lastX = event.clientX;
+    current.lastT = now;
+  }
+
+  const stageClass = ["hero-stage", dragging ? "is-dragging" : ""].filter(Boolean).join(" ");
+
   return (
-    <div className="hero-stage" ref={stageRef} aria-hidden="true">
+    <div
+      className={stageClass}
+      data-view={view}
+      ref={stageRef}
+      aria-hidden="true"
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={(event) => releaseGesture(event.pointerId)}
+      onPointerCancel={(event) => releaseGesture(event.pointerId)}
+      onLostPointerCapture={(event) => releaseGesture(event.pointerId)}
+    >
       <Image
         src={BRAND_POSTER}
         alt=""
@@ -135,7 +236,8 @@ export function HeroStage() {
         priority
         unoptimized
         sizes="(min-width: 860px) 70vw, 100vw"
-        className={ready && live ? "hero-poster is-gone" : "hero-poster"}
+        className="hero-poster"
+        style={{ opacity: view === "poster" ? 1 : 0 }}
       />
       {live && !skipped ? (
         <button
@@ -160,7 +262,13 @@ export function HeroStage() {
           <div className={ready ? "hero-canvas is-ready" : "hero-canvas"}>
             <HeroCanvas
               active={active}
-              onReady={() => setReady(true)}
+              onReady={() => {
+                if (!heroMotion.skipIntro) {
+                  heroMotion.intro = 0;
+                  heroMotion.introStarted = performance.now();
+                }
+                setReady(true);
+              }}
               onLost={() => {
                 setReady(false);
                 setFailed(true);

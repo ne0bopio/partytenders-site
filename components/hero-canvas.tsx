@@ -20,8 +20,9 @@ export function HeroCanvas({ active, onReady, onLost }: HeroCanvasProps) {
     <Canvas
       dpr={[1, cap]}
       frameloop={active ? "always" : "never"}
+      style={{ background: "transparent", display: "block" }}
       gl={{
-        antialias: true,
+        antialias: quality === "high",
         alpha: true,
         premultipliedAlpha: true,
         powerPreference: "high-performance",
@@ -32,11 +33,12 @@ export function HeroCanvas({ active, onReady, onLost }: HeroCanvasProps) {
       onCreated={({ gl, scene }) => {
         gl.outputColorSpace = SRGBColorSpace;
         gl.toneMapping = ACESFilmicToneMapping;
-        gl.toneMappingExposure = 1.06;
-        gl.transmissionResolutionScale = quality === "high" ? 0.65 : 0.42;
+        gl.toneMappingExposure = 1.08;
+        gl.transmissionResolutionScale = quality === "high" ? 0.5 : 0.34;
         gl.setClearColor(0x000000, 0);
         scene.background = null;
         const canvas = gl.domElement;
+        canvas.style.background = "transparent";
         canvas.addEventListener("webglcontextlost", (event) => {
           event.preventDefault();
           onLost();

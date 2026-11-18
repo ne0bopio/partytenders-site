@@ -1,52 +1,61 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 980" role="img" aria-label="">
   <defs>
-    <radialGradient id="key" cx="28%" cy="22%" r="58%">
-      <stop offset="0%" stop-color="#E7C48A" stop-opacity="0.42"/>
-      <stop offset="48%" stop-color="#D4AE69" stop-opacity="0.12"/>
+    <radialGradient id="glow" cx="50%" cy="40%" r="42%">
+      <stop offset="0%" stop-color="#E7C48A" stop-opacity="0.34"/>
+      <stop offset="48%" stop-color="#D4AE69" stop-opacity="0.08"/>
       <stop offset="100%" stop-color="#150B0E" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="shade" cx="72%" cy="68%" r="46%">
-      <stop offset="0%" stop-color="#5A1224" stop-opacity="0.55"/>
+    <radialGradient id="shade" cx="68%" cy="62%" r="40%">
+      <stop offset="0%" stop-color="#5A1224" stop-opacity="0.28"/>
       <stop offset="100%" stop-color="#150B0E" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="wine" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#C43752"/>
-      <stop offset="42%" stop-color="#B91C3A"/>
-      <stop offset="100%" stop-color="#5C0E22"/>
+      <stop offset="0%" stop-color="#E4687C"/>
+      <stop offset="22%" stop-color="#B91C3A"/>
+      <stop offset="100%" stop-color="#4A0716"/>
     </linearGradient>
     <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#F2E7D6" stop-opacity="0.72"/>
-      <stop offset="38%" stop-color="#F2E7D6" stop-opacity="0.08"/>
-      <stop offset="100%" stop-color="#D4AE69" stop-opacity="0.45"/>
+      <stop offset="0%" stop-color="#F2E7D6" stop-opacity="0.78"/>
+      <stop offset="42%" stop-color="#F2E7D6" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#D4AE69" stop-opacity="0.4"/>
     </linearGradient>
     <radialGradient id="shadow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#070304" stop-opacity="0.65"/>
-      <stop offset="70%" stop-color="#070304" stop-opacity="0"/>
+      <stop offset="0%" stop-color="#070304" stop-opacity="0.5"/>
+      <stop offset="70%" stop-color="#070304" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#070304" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ice" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F7F4EE" stop-opacity="0.92"/>
+      <stop offset="45%" stop-color="#D7E6EC" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#F2E7D6" stop-opacity="0.12"/>
+    </linearGradient>
+    <radialGradient id="sheen" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#F2E7D6" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#F2E7D6" stop-opacity="0"/>
     </radialGradient>
   </defs>
-  <rect width="1200" height="900" fill="#150B0E"/>
-  <rect width="1200" height="900" fill="url(#key)"/>
-  <rect width="1200" height="900" fill="url(#shade)"/>
-  <ellipse cx="600" cy="760" rx="210" ry="28" fill="url(#shadow)"/>
-  <ellipse cx="600" cy="748" rx="78" ry="14" fill="none" stroke="#D4AE69" stroke-width="3"/>
-  <g fill="none" stroke="#F2E7D6" stroke-width="2.2" stroke-linejoin="round">
-    <path d="M430 430 C455 520 520 590 600 628 C680 590 745 520 770 430" fill="url(#glass)"/>
-    <path d="M592 628 L588 730"/>
-    <path d="M608 628 L612 730"/>
-    <ellipse cx="600" cy="742" rx="46" ry="10"/>
-  </g>
-  <path d="M448 448 C470 528 530 590 600 620 C670 590 730 528 752 448 C700 468 500 468 448 448Z" fill="url(#wine)"/>
-  <ellipse cx="600" cy="448" rx="156" ry="22" fill="none" stroke="#D4AE69" stroke-width="10"/>
-  <ellipse cx="600" cy="448" rx="132" ry="12" fill="none" stroke="#F0E2C0" stroke-width="2"/>
+  <ellipse cx="450" cy="430" rx="300" ry="260" fill="url(#glow)"/>
+  <ellipse cx="560" cy="560" rx="220" ry="180" fill="url(#shade)"/>
+  <ellipse cx="450" cy="760" rx="168" ry="22" fill="url(#shadow)"/>
+  <ellipse cx="450" cy="742" rx="58" ry="12" fill="none" stroke="#D4AE69" stroke-width="3.2"/>
+  <path d="M438 560 C434 630 432 690 442 730 L458 730 C468 690 466 630 462 560 Z" fill="url(#glass)" stroke="#F2E7D6" stroke-opacity="0.28" stroke-width="1.4"/>
+  <path d="M248 392 C286 520 356 590 450 612 C544 590 614 520 652 392 C584 430 316 430 248 392 Z" fill="url(#wine)"/>
+  <ellipse cx="450" cy="404" rx="168" ry="18" fill="url(#sheen)"/>
+  <path d="M236 378 C278 524 352 604 450 628 C548 604 622 524 664 378" fill="none" stroke="url(#glass)" stroke-width="3.2" stroke-linejoin="round"/>
+  <ellipse cx="450" cy="378" rx="214" ry="30" fill="none" stroke="#D4AE69" stroke-width="9"/>
+  <ellipse cx="450" cy="376" rx="186" ry="16" fill="none" stroke="#F2E7D6" stroke-opacity="0.55" stroke-width="1.6"/>
   <g fill="#F6EFE0">
-    <circle cx="548" cy="500" r="7"/>
-    <circle cx="572" cy="528" r="4.5"/>
-    <circle cx="534" cy="536" r="3"/>
-    <circle cx="610" cy="490" r="3.5"/>
+    <circle cx="392" cy="470" r="6.5" opacity="0.9"/>
+    <circle cx="424" cy="512" r="4" opacity="0.75"/>
+    <circle cx="378" cy="524" r="2.6" opacity="0.6"/>
+    <circle cx="468" cy="456" r="3.2" opacity="0.7"/>
   </g>
-  <g fill="#F4EFE6" fill-opacity="0.55" stroke="#F2E7D6" stroke-opacity="0.7">
-    <rect x="760" y="390" width="54" height="48" rx="8" transform="rotate(18 787 414)"/>
-    <rect x="392" y="360" width="36" height="32" rx="6" transform="rotate(-12 410 376)"/>
+  <g transform="translate(548 332) rotate(16)">
+    <rect width="58" height="46" rx="12" fill="url(#ice)" stroke="#F2E7D6" stroke-opacity="0.75" stroke-width="1.4"/>
+    <path d="M10 8 H28" stroke="#F2E7D6" stroke-opacity="0.55" stroke-width="1.2"/>
   </g>
-  <path d="M520 360 L528 374 L542 382 L528 390 L520 404 L512 390 L498 382 L512 374Z" fill="#D4AE69"/>
+  <g transform="translate(300 348) rotate(-14)">
+    <rect width="42" height="34" rx="10" fill="url(#ice)" stroke="#F2E7D6" stroke-opacity="0.7" stroke-width="1.3"/>
+  </g>
+  <path d="M430 300 L438 314 L452 322 L438 330 L430 344 L422 330 L408 322 L422 314 Z" fill="#D4AE69"/>
 </svg>
