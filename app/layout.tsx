@@ -72,6 +72,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: "#150B0E",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -81,8 +82,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       data-p="2"
       data-t="3"
       className={`${federo.variable} ${cormorant.variable} ${mulish.variable}`}
+      style={{ backgroundColor: "#150B0E" }}
     >
-      <body>{children}</body>
+      <body style={{ backgroundColor: "#150B0E", color: "#F2E7D6", margin: 0 }}>{children}</body>
     </html>
   );
 }

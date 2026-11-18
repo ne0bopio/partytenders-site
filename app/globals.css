@@ -35,8 +35,8 @@
 
 /* ---------- base ---------- */
 *{ box-sizing:border-box }
-html{ scroll-behavior:smooth; -webkit-text-size-adjust:100% }
-body{ margin:0; background:var(--night); color:var(--cream); font:400 1.03rem/1.55 var(--fb); }
+html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; background:#150B0E; color-scheme:dark }
+body{ margin:0; background:#150B0E; color:var(--cream); font:400 1.03rem/1.55 var(--fb); }
 img{ display:block; max-width:100% }
 a{ color:inherit }
 :focus-visible{ outline:2px solid var(--brass); outline-offset:3px }
@@ -84,68 +84,94 @@ main > section, .foot{ background:var(--bg); color:var(--fg); position:relative 
 
 /* ---------- hero ---------- */
 .hero{
-  position:relative; isolation:isolate; min-height:100svh; overflow:hidden; text-align:center;
-  display:grid; grid-template-rows:auto minmax(240px,1fr) auto; align-items:center; justify-items:center; gap:6px;
+  position:relative; isolation:isolate; min-height:100svh; overflow:clip; text-align:center;
+  display:grid; grid-template-rows:auto minmax(240px,1fr) auto; align-items:center; justify-items:center; gap:8px;
   padding:88px 18px 28px;
   background:
-    radial-gradient(ellipse 46% 36% at 24% 30%, rgba(212,174,105,.18), transparent 70%),
-    radial-gradient(ellipse 40% 46% at 74% 66%, rgba(74,12,28,.5), transparent 72%),
-    var(--night);
+    radial-gradient(ellipse 42% 34% at 22% 28%, rgba(212,174,105,.16), transparent 70%),
+    radial-gradient(ellipse 36% 42% at 78% 70%, rgba(23,97,94,.16), transparent 72%),
+    radial-gradient(ellipse 40% 46% at 70% 58%, rgba(74,12,28,.45), transparent 72%),
+    #150B0E;
 }
 .hero::before,.hero::after{ content:""; position:absolute; inset:0; pointer-events:none; z-index:4 }
 .hero::before{
-  opacity:.16; mix-blend-mode:overlay;
+  opacity:.14; mix-blend-mode:overlay;
   background-image:radial-gradient(rgba(242,231,214,.55) .55px, transparent .7px);
   background-size:3px 3px;
 }
-.hero::after{ background:radial-gradient(ellipse at 50% 42%, transparent 42%, rgba(8,3,5,.42) 100%) }
-.lockup{ position:relative; z-index:5; width:min(680px, 88vw) }
-.lk-top{ margin:0 0 12px; font:italic var(--faw) 1.15rem/1.2 var(--fa); color:var(--brass) }
+.hero::after{ background:radial-gradient(ellipse at 50% 46%, transparent 36%, rgba(8,3,5,.55) 100%) }
+.lockup{ position:relative; z-index:5; width:min(640px, 88vw) }
+.lk-top{
+  margin:0 0 10px; min-height:1.2em;
+  font:italic var(--faw) 1.05rem/1.2 var(--fa); letter-spacing:.04em; color:var(--brass);
+}
 .hero-logo-heading{ margin:0 }
-.hero-logo-frame{ position:relative; display:block; width:100%; overflow:hidden }
+.hero-logo-frame{ position:relative; display:block; width:100%; aspect-ratio:761.75 / 224; overflow:clip }
 .hero-logo-frame::after{
-  content:""; position:absolute; inset:0; pointer-events:none;
+  content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
   background:linear-gradient(105deg, transparent 46%, rgba(212,174,105,.28) 50%, transparent 54%);
   transform:translateX(-130%); mix-blend-mode:screen;
 }
-.hero-logo{ display:block }
-.hero-stage{ position:relative; z-index:1; width:min(1040px, 100%); height:100%; min-height:260px; pointer-events:none }
-.hero-poster,.hero-canvas{ position:absolute; inset:0 }
-.hero-poster{ object-fit:contain; object-position:center 56%; z-index:0; transition:opacity .8s ease }
-.hero-poster.is-gone{ opacity:0 }
-.hero-canvas{
-  z-index:1; opacity:0; transition:opacity 1.05s ease;
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 68%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 68%, transparent 100%);
+.hero-logo{ object-fit:contain }
+.hero-stage{
+  position:relative; z-index:1; width:min(1040px, 100%); height:100%; min-height:280px;
+  pointer-events:none; touch-action:pan-y; user-select:none;
 }
+.hero-stage[data-view="live"]{ pointer-events:auto }
+.hero-stage[data-view="live"],
+.hero-stage[data-view="live"] .hero-canvas,
+.hero-stage[data-view="live"] canvas{ touch-action:pan-y }
+.hero-stage[data-view="live"]{ cursor:grab }
+.hero-stage[data-view="live"].is-dragging{ cursor:grabbing }
+.hero-poster,.hero-canvas{ position:absolute; inset:0 }
+.hero-poster{
+  object-fit:contain; object-position:center 62%; z-index:0; opacity:0; pointer-events:none;
+}
+.hero-stage[data-view="poster"] .hero-poster{ opacity:1 }
+.hero-canvas{
+  z-index:1; opacity:0; transition:opacity 1.15s ease; pointer-events:none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 86%, transparent 100%);
+}
+.hero-stage[data-view="live"] .hero-canvas{ pointer-events:auto }
 .hero-canvas.is-ready{ opacity:calc(1 - var(--hero-out, 0) * .45) }
 .hero-skip{
   position:absolute; right:16px; bottom:14px; z-index:6; pointer-events:auto;
   font:600 .78rem var(--fb); letter-spacing:.12em; text-transform:uppercase;
-  color:var(--cream); background:transparent; border:1px solid rgba(212,174,105,.7);
+  color:var(--cream); background:rgba(21,11,14,.45); border:1px solid rgba(212,174,105,.7);
   border-radius:99px; min-height:36px; padding:8px 14px; cursor:pointer;
 }
 @media (prefers-reduced-motion:no-preference){
-  .hero-skip{ animation:hide-skip .2s linear 2.8s forwards }
+  .lk-top{ animation:hero-rise .62s cubic-bezier(.16,.84,.24,1) both }
+  .hero-logo-heading{ animation:hero-rise .8s .06s cubic-bezier(.16,.84,.24,1) both }
+  .hero-actions{ animation:hero-rise .72s .14s cubic-bezier(.16,.84,.24,1) both }
+  .hero-skip{ animation:hide-skip .2s linear 1.9s forwards }
+}
+@keyframes hero-rise{
+  from{ opacity:0; transform:translateY(8px) }
+  to{ opacity:1; transform:none }
 }
 @keyframes hide-skip{ to{ opacity:0; visibility:hidden; pointer-events:none } }
-.hero-canvas canvas{ display:block; width:100% !important; height:100% !important; background:transparent }
-.hero-actions{ position:relative; z-index:5; display:grid; justify-items:center; gap:14px; width:min(680px, 92vw) }
+.hero-canvas canvas{ display:block; width:100% !important; height:100% !important; background:transparent; touch-action:pan-y }
+.hero-actions{ position:relative; z-index:5; display:grid; justify-items:center; gap:12px; width:min(680px, 92vw) }
 .hero-creds{
   list-style:none; display:flex; flex-wrap:wrap; justify-content:center; gap:4px 0; margin:0; padding:0;
-  font:600 .72rem/1.35 var(--fb); letter-spacing:.16em; text-transform:uppercase; color:var(--brass);
+  font:600 .68rem/1.35 var(--fb); letter-spacing:.14em; text-transform:uppercase; color:var(--brass);
 }
 .hero-creds b{ font-weight:600 }
-.hero-creds li + li::before{ content:"·"; margin:0 .8em }
+.hero-creds li + li::before{ content:"·"; margin:0 .75em }
 .hero-cta{
   display:inline-flex; align-items:center; justify-content:center; background:var(--bar); color:var(--barfg);
-  text-decoration:none; font:600 1rem var(--fb); padding:14px 28px; border-radius:99px; min-height:44px;
+  text-decoration:none; font:600 1.05rem var(--fb); letter-spacing:.01em;
+  padding:15px 34px; border-radius:99px; min-height:48px;
+  box-shadow:0 12px 32px rgba(185,28,58,.28);
 }
+.hero-cta:hover{ filter:brightness(1.08) }
 @media (min-width:860px){
-  .hero{ padding:104px 40px 36px; gap:0 }
-  .lk-top{ margin-bottom:16px; font-size:1.35rem }
-  .hero-stage{ min-height:420px }
-  .hero-actions{ gap:16px }
+  .hero{ padding:96px 40px 32px; gap:2px }
+  .lk-top{ margin-bottom:12px; font-size:1.2rem }
+  .hero-stage{ min-height:440px }
+  .hero-actions{ gap:14px }
 }
 @media (max-height:560px) and (orientation:landscape){
   .hero{ min-height:680px }
@@ -159,8 +185,9 @@ main > section, .foot{ background:var(--bg); color:var(--fg); position:relative 
 }
 @media (prefers-reduced-motion:reduce), (scripting:none){
   .hero .lockup, .hero .lockup *, .hero .hero-actions, .hero .hero-actions *{
-    opacity:1 !important; transform:none !important; clip-path:none !important;
+    animation:none !important; opacity:1 !important; transform:none !important; clip-path:none !important;
   }
+  .hero-poster{ opacity:1 !important }
   .hero-poster, .hero-canvas{ transition:none }
   .hero::before{ display:none }
 }
